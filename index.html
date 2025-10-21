@@ -70,22 +70,23 @@
                 </thead>
                 <tbody id="mx"></tbody>
             </table>
-            <h2>En Rusia</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>📍 place</th>
-                        <th>⌚ time</th>
-                        <th>🫨 mag</th>
-                        <th>🌊 tsunami</th>
-                    </tr>
-                </thead>
-                <tbody id="ru"></tbody>
-            </table>
+           <h2>En Filipinas</h2>
+<table>
+    <thead>
+        <tr>
+            <th>📍 place</th>
+            <th>⌚ time</th>
+            <th>🫨 mag</th>
+            <th>🌊 tsunami</th>
+        </tr>
+    </thead>
+    <tbody id="ph"></tbody>
+</table>
+
             <h2>Resumen</h2>
             <p>Registros sobre 2.5 M de la última semana:</p>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 50" id="viz"></svg>
-            <circle cx="100" cy="100" r="10" fill="red"></circle>
+            
             <footer>
                 <p>Desarrollado por <a href="#" target="_blank">Nombre Apellido</a> &copy; 2025</p>
             </footer>
@@ -94,12 +95,12 @@
     const chilenos = document.getElementById("cl");
     const mexicanos = document.getElementById("mx");
     const japoneses = document.getElementById("jp");
-    const rusos = document.getElementById("ru");
+    const filipinos = document.getElementById("ph");
 
     var conteoChilenos = 0;
     var conteoMexicanos = 0;
     var conteoJaponeses = 0;
-    var conteoRusos = 0;
+    var conteoFilipinos = 0;
 
     async function datos(url) {
         try {
@@ -118,6 +119,7 @@
                     </tr>`;
                     conteoChilenos++;
                 }
+
                 // si es que dice Mexico en el place
                 if (t.properties.place.includes("Mexico") || t.properties.place.includes("México")) {
                     mexicanos.innerHTML += `<tr>
@@ -128,8 +130,9 @@
                     </tr>`;
                     conteoMexicanos++;
                 }
+
                 // si es que dice Japan en el place
-                if (t.properties.place.includes("Japan") || t.properties.place.includes("Japan:") || t.properties.place.includes("Japan,")) {
+                if (t.properties.place.includes("Japan")) {
                     japoneses.innerHTML += `<tr>
                         <td><a href="${t.properties.url}" target="_blank">${t.properties.place}</a></td>
                         <td>${tiempo(t.properties.time)}</td>
@@ -138,25 +141,25 @@
                     </tr>`;
                     conteoJaponeses++;
                 }
-                // si es que dice Russia en el place
-                if (t.properties.place.includes("Russia") || t.properties.place.includes("Russian")) {
-                    rusos.innerHTML += `<tr>
+
+                // si es que dice Philippines o Filipinas en el place
+                if (t.properties.place.includes("Philippines") || t.properties.place.includes("Filipinas")) {
+                    filipinos.innerHTML += `<tr>
                         <td><a href="${t.properties.url}" target="_blank">${t.properties.place}</a></td>
                         <td>${tiempo(t.properties.time)}</td>
                         <td>${magnitud(t.properties.mag)}</td>
                         <td>${tsunami(t.properties.tsunami)}</td>
                     </tr>`;
-                    conteoRusos++;
+                    conteoFilipinos++;
                 }
             });
 
-            // generar SVG resumen: uso de colores distintos y radio mínimo para que siempre se vea
+            // Crear el SVG con los 4 países (Chile, Japón, México, Filipinas)
             const rChile = Math.max(2, conteoChilenos / 2);
             const rJapon = Math.max(2, conteoJaponeses / 2);
             const rMexico = Math.max(2, conteoMexicanos / 2);
-            const rRusia = Math.max(2, conteoRusos / 2);
+            const rFilipinas = Math.max(2, conteoFilipinos / 2);
 
-            // Empezamos limpio
             const viz = document.getElementById("viz");
             viz.innerHTML = "";
 
@@ -179,9 +182,9 @@
             </g>`;
 
             viz.innerHTML += `<g transform="translate(75,0)">
-                <circle cx="10" cy="25" r="${rRusia}" fill="#8a2be2"></circle>
-                <text x="10" y="25" font-size="1.5" dominant-baseline="middle" text-anchor="middle" fill="white">${conteoRusos}</text>
-                <text x="10" y="45" font-size="2" dominant-baseline="middle" text-anchor="middle">Rusia</text>
+                <circle cx="10" cy="25" r="${rFilipinas}" fill="#ff8c00"></circle>
+                <text x="10" y="25" font-size="1.5" dominant-baseline="middle" text-anchor="middle" fill="white">${conteoFilipinos}</text>
+                <text x="10" y="45" font-size="2" dominant-baseline="middle" text-anchor="middle">Filipinas</text>
             </g>`;
 
         } catch (error) {
@@ -209,5 +212,7 @@
         return mensaje;
     }
 </script>
+
+
     </body>
 </html>
