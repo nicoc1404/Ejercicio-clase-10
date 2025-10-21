@@ -200,11 +200,21 @@
         return numero;
     }
 
-    function tiempo(x) {
-        var unix = x;
-        var dato = new Date(unix);
-        return dato.toISOString();
-    }
+   function tiempo(x) {
+    const fecha = new Date(x);
+    // Opciones para mostrar fecha legible
+    const opciones = {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+    };
+    // Mostramos formato local (Chile)
+    return fecha.toLocaleString('es-CL', opciones);
+}
+
 
     function tsunami(x) {
         var mensaje = "<span>Sin alerta</span>";
