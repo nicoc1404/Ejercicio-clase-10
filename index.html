@@ -90,97 +90,124 @@
                 <p>Desarrollado por <a href="#" target="_blank">Nombre Apellido</a> &copy; 2025</p>
             </footer>
         </div>
-        <script>
-            const chilenos = document.getElementById("cl");
-            const mexicanos = document.getElementById("mx");
-            const japoneses = document.getElementById("jp");
-            const rusos = document.getElementById("ru");
+       <script>
+    const chilenos = document.getElementById("cl");
+    const mexicanos = document.getElementById("mx");
+    const japoneses = document.getElementById("jp");
+    const rusos = document.getElementById("ru");
 
-            var conteoChilenos = 0;
-            var conteoMexicanos = 0;
-            var conteoJaponeses = 0;
-            var conteoRusos = 0;
+    var conteoChilenos = 0;
+    var conteoMexicanos = 0;
+    var conteoJaponeses = 0;
+    var conteoRusos = 0;
 
-            async function datos(url) {
-                try {
-                    let consulta = await fetch(url);
-                    let data = await consulta.json();
-                    let temblores = data.features;
-                    console.log(temblores);
-                    temblores.forEach((t) => {
-                        //si es que dice Chile en el place
-                        if (t.properties.place.includes("Chile")) {
-                            chilenos.innerHTML += `<tr>
-                            <td><a href="${t.properties.url}" target="_blank">${t.properties.place}</a></td>
-                            <td>${tiempo(t.properties.time)}</td>
-                            <td>${magnitud(t.properties.mag)}</td>
-                            <td>${tsunami(t.properties.tsunami)}</td>
-                        </tr>`;
-                            conteoChilenos++;
-                        }
-                        //si es que dice Mexico en el place
-                        if (t.properties.place.includes("Mexico")) {
-                            mexicanos.innerHTML += `<tr>
-                            <td>…</td>
-                            <td>…</td>
-                            <td>…</td>
-                            <td>…</td>
-                        </tr>`;
-                            conteoMexicanos++;
-                        }
-                        //si es que dice Japan en el place
-                        if (t.properties.place.includes("Japan")) {
-                            japoneses.innerHTML += `<tr>
-                            <td>…</td>
-                            <td>…</td>
-                            <td>…</td>
-                            <td>…</td>
-                        </tr>`;
-                            conteoJaponeses++;
-                        }
-                        //si es que dice Russia en el place
-                        if (t.properties.place.includes("Russia")) {
-                            rusos.innerHTML += `<tr>
-                            <td>…</td>
-                            <td>…</td>
-                            <td>…</td>
-                            <td>…</td>
-                        </tr>`;
-                            conteoRusos++;
-                        }
-                    });
-
-                    document.getElementById("viz").innerHTML = `<g><circle cx="10" cy="25" r="${conteoChilenos / 2}" fill="darkmagenta"></circle><text x="10" y="25" font-size="1.5" dominant-baseline="middle" text-anchor="middle" fill="white">${conteoChilenos}</text><text x="10" y="45" font-size="2" dominant-baseline="middle" text-anchor="middle">Chile</text><g>`;
-
-                    document.getElementById("viz").innerHTML += `<g transform="translate(25)"><circle cx="10" cy="25" r="${conteoJaponeses / 2}" fill="darkmagenta"></circle><text x="10" y="25" font-size="1.5" dominant-baseline="middle" text-anchor="middle" fill="white">${conteoJaponeses}</text><text x="10" y="45" font-size="2" dominant-baseline="middle" text-anchor="middle">Japón</text><g>`;
-
-                    document.getElementById("viz").innerHTML += `<g transform="translate(50)"><circle cx="10" cy="25" r="${conteoMexicanos / 2}" fill="darkmagenta"></circle><text x="10" y="25" font-size="1.5" dominant-baseline="middle" text-anchor="middle" fill="white">${conteoMexicanos}</text><text x="10" y="45" font-size="2" dominant-baseline="middle" text-anchor="middle">México</text><g>`;
-
-                    document.getElementById("viz").innerHTML += `<g transform="translate(75)"><circle cx="10" cy="25" r="${conteoRusos / 2}" fill="darkmagenta"></circle><text x="10" y="25" font-size="1.5" dominant-baseline="middle" text-anchor="middle" fill="white">${conteoRusos}</text><text x="10" y="45" font-size="2" dominant-baseline="middle" text-anchor="middle">Rusia</text><g>`;
-                } catch (error) {
-                    console.error("Error al cargar los datos:", error);
+    async function datos(url) {
+        try {
+            let consulta = await fetch(url);
+            let data = await consulta.json();
+            let temblores = data.features;
+            console.log(temblores);
+            temblores.forEach((t) => {
+                // si es que dice Chile en el place
+                if (t.properties.place.includes("Chile")) {
+                    chilenos.innerHTML += `<tr>
+                        <td><a href="${t.properties.url}" target="_blank">${t.properties.place}</a></td>
+                        <td>${tiempo(t.properties.time)}</td>
+                        <td>${magnitud(t.properties.mag)}</td>
+                        <td>${tsunami(t.properties.tsunami)}</td>
+                    </tr>`;
+                    conteoChilenos++;
                 }
-            }
+                // si es que dice Mexico en el place
+                if (t.properties.place.includes("Mexico") || t.properties.place.includes("México")) {
+                    mexicanos.innerHTML += `<tr>
+                        <td><a href="${t.properties.url}" target="_blank">${t.properties.place}</a></td>
+                        <td>${tiempo(t.properties.time)}</td>
+                        <td>${magnitud(t.properties.mag)}</td>
+                        <td>${tsunami(t.properties.tsunami)}</td>
+                    </tr>`;
+                    conteoMexicanos++;
+                }
+                // si es que dice Japan en el place
+                if (t.properties.place.includes("Japan") || t.properties.place.includes("Japan:") || t.properties.place.includes("Japan,")) {
+                    japoneses.innerHTML += `<tr>
+                        <td><a href="${t.properties.url}" target="_blank">${t.properties.place}</a></td>
+                        <td>${tiempo(t.properties.time)}</td>
+                        <td>${magnitud(t.properties.mag)}</td>
+                        <td>${tsunami(t.properties.tsunami)}</td>
+                    </tr>`;
+                    conteoJaponeses++;
+                }
+                // si es que dice Russia en el place
+                if (t.properties.place.includes("Russia") || t.properties.place.includes("Russian")) {
+                    rusos.innerHTML += `<tr>
+                        <td><a href="${t.properties.url}" target="_blank">${t.properties.place}</a></td>
+                        <td>${tiempo(t.properties.time)}</td>
+                        <td>${magnitud(t.properties.mag)}</td>
+                        <td>${tsunami(t.properties.tsunami)}</td>
+                    </tr>`;
+                    conteoRusos++;
+                }
+            });
 
-            datos("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojson");
+            // generar SVG resumen: uso de colores distintos y radio mínimo para que siempre se vea
+            const rChile = Math.max(2, conteoChilenos / 2);
+            const rJapon = Math.max(2, conteoJaponeses / 2);
+            const rMexico = Math.max(2, conteoMexicanos / 2);
+            const rRusia = Math.max(2, conteoRusos / 2);
 
-            function magnitud(x) {
-                var numero = x;
-                if (x > 4.9) { numero = "<strong>" + x + "</strong>"; }
-                return numero;
-            }
+            // Empezamos limpio
+            const viz = document.getElementById("viz");
+            viz.innerHTML = "";
 
-            function tiempo(x) {
-                var unix = x;
-                var dato = new Date(unix);
-                return dato.toISOString();
-            }
+            viz.innerHTML += `<g transform="translate(0,0)">
+                <circle cx="10" cy="25" r="${rChile}" fill="#b22222"></circle>
+                <text x="10" y="25" font-size="1.5" dominant-baseline="middle" text-anchor="middle" fill="white">${conteoChilenos}</text>
+                <text x="10" y="45" font-size="2" dominant-baseline="middle" text-anchor="middle">Chile</text>
+            </g>`;
 
-            function tsunami(x) {
-                var mensaje = "<span>Sin alerta</span>";
-                if (x == 1) { mensaje = "<strong>¡Alerta de tsunami!</strong>"; }
-                return mensaje;
-            }
-        </script>
+            viz.innerHTML += `<g transform="translate(25,0)">
+                <circle cx="10" cy="25" r="${rJapon}" fill="#1e90ff"></circle>
+                <text x="10" y="25" font-size="1.5" dominant-baseline="middle" text-anchor="middle" fill="white">${conteoJaponeses}</text>
+                <text x="10" y="45" font-size="2" dominant-baseline="middle" text-anchor="middle">Japón</text>
+            </g>`;
+
+            viz.innerHTML += `<g transform="translate(50,0)">
+                <circle cx="10" cy="25" r="${rMexico}" fill="#228B22"></circle>
+                <text x="10" y="25" font-size="1.5" dominant-baseline="middle" text-anchor="middle" fill="white">${conteoMexicanos}</text>
+                <text x="10" y="45" font-size="2" dominant-baseline="middle" text-anchor="middle">México</text>
+            </g>`;
+
+            viz.innerHTML += `<g transform="translate(75,0)">
+                <circle cx="10" cy="25" r="${rRusia}" fill="#8a2be2"></circle>
+                <text x="10" y="25" font-size="1.5" dominant-baseline="middle" text-anchor="middle" fill="white">${conteoRusos}</text>
+                <text x="10" y="45" font-size="2" dominant-baseline="middle" text-anchor="middle">Rusia</text>
+            </g>`;
+
+        } catch (error) {
+            console.error("Error al cargar los datos:", error);
+        }
+    }
+
+    datos("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojson");
+
+    function magnitud(x) {
+        var numero = x;
+        if (x > 4.9) { numero = "<strong>" + x + "</strong>"; }
+        return numero;
+    }
+
+    function tiempo(x) {
+        var unix = x;
+        var dato = new Date(unix);
+        return dato.toISOString();
+    }
+
+    function tsunami(x) {
+        var mensaje = "<span>Sin alerta</span>";
+        if (x == 1) { mensaje = "<strong>¡Alerta de tsunami!</strong>"; }
+        return mensaje;
+    }
+</script>
     </body>
 </html>
